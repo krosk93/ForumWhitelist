@@ -1,0 +1,4 @@
+name: ForumWhitelist
+main: net.acampadas21.forumwhitelist.ForumWhitelist
+version: 0.01
+description: Takes users from forum database
