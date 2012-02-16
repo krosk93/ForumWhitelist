@@ -1,5 +1,7 @@
 package net.acampadas21.forumwhitelist;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.sql.ResultSet;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -7,6 +9,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+
+import es.jertocvil.whitelist2.Whitelist2;
+
 import java.util.logging.Level;
 import java.sql.SQLException;
 
@@ -34,6 +39,17 @@ public class ForumPlayerListener implements Listener {
             rs.next();
             if(rs.getString("real_name").equalsIgnoreCase(p.getName())) { 
             	reg = true;
+            }
+            if(!reg){
+            	BufferedReader b = new BufferedReader(new FileReader(ForumWhitelist.f));
+                String linea;
+                while((linea = b.readLine())!=null){
+                    if(p.getName().equals(linea)) {
+                    	reg = true;
+                    	p.sendMessage("No estas verificado en el foro. El dia 19/02/12 no podras acceder a menos que verifiques");
+                    }
+                }
+                b.close();
             }
             return reg;
         } catch (SQLException ex) {
