@@ -35,7 +35,7 @@ public class ForumPlayerListener implements Listener {
             boolean reg = false;
             rs.next();
             ForumWhitelist.logger.log(Level.INFO, rs.getString("real_name").toLowerCase() + "<>" + p.getName().toLowerCase());
-            if(rs.getString("real_name").toLowerCase() == p.getName().toLowerCase()) { 
+            if(rs.getString("real_name").equalsIgnoreCase(p.getName())) { 
             	reg = true;
             }
             return reg;
