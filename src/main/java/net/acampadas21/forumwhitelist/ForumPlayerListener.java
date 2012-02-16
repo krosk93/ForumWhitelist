@@ -33,8 +33,9 @@ public class ForumPlayerListener implements Listener {
             ForumWhitelist.logger.log(Level.INFO, testquery);
             ResultSet rs = ForumWhitelist.mysqlcon.query("SELECT `real_name` FROM `"+ForumWhitelist.config.getString("mysql.table")+"` WHERE `real_name` LIKE '"+p.getName()+"' AND `id_group` <> '9'");
             boolean reg = false;
-            ForumWhitelist.logger.log(Level.INFO, rs.getString(0).toLowerCase() + "<>" + p.getName().toLowerCase());
-            if(rs.getString(0).toLowerCase() == p.getName().toLowerCase()) { 
+            rs.next();
+            ForumWhitelist.logger.log(Level.INFO, rs.getString("real_name").toLowerCase() + "<>" + p.getName().toLowerCase());
+            if(rs.getString("real_name").toLowerCase() == p.getName().toLowerCase()) { 
             	reg = true;
             }
             return reg;
