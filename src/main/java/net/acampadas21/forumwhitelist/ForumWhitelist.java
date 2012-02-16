@@ -10,7 +10,7 @@ public class ForumWhitelist extends JavaPlugin {
 
     final ForumWhitelist plugin = this;
     public static final Logger logger = Logger.getLogger("Minecraft");
-    public final ForumPlayerListener playerListener = new ForumPlayerListener(this);
+    public ForumPlayerListener playerListener;
     public static FileConfiguration config;
     public static MySQL mysqlcon;    
     
@@ -26,6 +26,7 @@ public class ForumWhitelist extends JavaPlugin {
         ForumWhitelist.mysqlcon = new MySQL(logger, config.getString("mysql.prefix"), config.getString("mysql.hostname"), String.valueOf(config.getInt("mysql.port")), config.getString("mysql.database"), config.getString("mysql.user"), String.valueOf(config.getInt("mysql.password")));
         if (dbCheck()) {
             ForumWhitelist.logger.log(Level.INFO, plugin.getDescription().getName() + " enabled");
+            playerListener = new ForumPlayerListener(this);
         } else {
             ForumWhitelist.logger.log(Level.WARNING, "Error connecting to mysql. All users allowed.");
             this.getPluginLoader().disablePlugin(this);
