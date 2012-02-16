@@ -27,7 +27,7 @@ public class ForumWhitelist extends JavaPlugin {
         if (dbCheck()) {
             ForumWhitelist.logger.log(Level.INFO, plugin.getDescription().getName() + " enabled");
         } else {
-            ForumWhitelist.logger.log(Level.WARNING, "Whitelist file not found.");
+            ForumWhitelist.logger.log(Level.WARNING, "Error connecting to mysql. All users allowed.");
             this.getPluginLoader().disablePlugin(this);
         }
     }
