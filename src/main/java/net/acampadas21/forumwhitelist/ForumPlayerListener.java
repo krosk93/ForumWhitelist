@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import java.util.logging.Level;
 
 public class ForumPlayerListener implements Listener {
 
@@ -27,6 +28,8 @@ public class ForumPlayerListener implements Listener {
     public boolean playerRegistered(Player p) {
         try {
             ForumWhitelist.mysqlcon.open();
+            String testquery = "SELECT `real_name` FROM `"+ForumWhitelist.config.getString("mysql.table")+"` WHERE `real_name` LIKE '"+p.getName()+"' AND `id_group` <> '9'";
+            ForumWhitelist.logger.log(Level.INFO, testquery);
             ResultSet rs = ForumWhitelist.mysqlcon.query("SELECT `real_name` FROM `"+ForumWhitelist.config.getString("mysql.table")+"` WHERE `real_name` LIKE '"+p.getName()+"' AND `id_group` <> '9'");
             boolean reg = false;
             if(rs.getString("real_name").toLowerCase() == p.getName().toLowerCase()) { reg = true; }
