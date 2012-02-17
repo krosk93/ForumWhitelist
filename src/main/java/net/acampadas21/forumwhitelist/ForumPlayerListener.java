@@ -30,36 +30,36 @@ public class ForumPlayerListener implements Listener {
     }
 
     public boolean playerRegistered(Player p) {
+    	boolean reg = false;
         try {
             ForumWhitelist.mysqlcon.open();
             ResultSet rs = ForumWhitelist.mysqlcon.query("SELECT `real_name` FROM `"+ForumWhitelist.config.getString("mysql.table")+"` WHERE `real_name` LIKE '"+p.getName()+"' AND `id_group` <> '9'");
-            boolean reg = false;
+            
             rs.next();
             if(rs.getString("real_name").equalsIgnoreCase(p.getName())) { 
             	reg = true;
             }
-            if(!reg){
-            	if (ForumWhitelist.f.exists()){
-            		BufferedReader b;
-					try {
-						b = new BufferedReader(new FileReader(ForumWhitelist.f));
-						String linea;
-	                	while((linea = b.readLine())!=null){
-	                    	if(p.getName().equals(linea)) {
-	                    		reg = true;
-	                    		p.sendMessage("No estas verificado en el foro. El dia 19/02/12 no podras acceder a menos que verifiques");
-	                    	}
-	                	}
-	                	b.close();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-            	}
-            }
-            return reg;
         } catch (SQLException ex) {
         	ForumWhitelist.logger.log(Level.SEVERE, "["+plugin.getDescription().getName()+"] MySQL Error! The error reported is "+ex.getMessage()+" . The cause seems to be: "+ex.getCause());
-            return false;
         }
+        if(!reg){
+        	if (ForumWhitelist.f.exists()){
+        		BufferedReader b;
+				try {
+					b = new BufferedReader(new FileReader(ForumWhitelist.f));
+					String linea;
+                	while((linea = b.readLine())!=null){
+                    	if(p.getName().equals(linea)) {
+                    		reg = true;
+                    		p.sendMessage("No estas verificado en el foro. El dia 19/02/12 no podras acceder a menos que verifiques");
+                    	}
+                	}
+                	b.close();
+				} catch (Exception e) {
+					ForumWhitelist.logger.log(Level.SEVERE, "["+plugin.getDescription().getName()+"] Error on File Backend while reading.");
+				}
+        	}
+        }
+        return reg;
     }
 }
