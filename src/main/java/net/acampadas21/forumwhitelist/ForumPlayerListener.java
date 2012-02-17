@@ -34,7 +34,7 @@ public class ForumPlayerListener implements Listener {
         try {
             ForumWhitelist.mysqlcon.open();
             ResultSet rs = ForumWhitelist.mysqlcon.query("SELECT `real_name` FROM `"+ForumWhitelist.config.getString("mysql.table")+"` WHERE `real_name` LIKE '"+p.getName()+"' AND `id_group` <> '9'");
-            
+            ForumWhitelist.mysqlcon.close();
             rs.next();
             if(rs.getString("real_name").equalsIgnoreCase(p.getName())) { 
             	reg = true;
