@@ -23,11 +23,11 @@ public class ForumWhitelist extends JavaPlugin {
 
     @Override
     public void onEnable() {
+    	config = this.getConfig();
     	f = new File(config.getString("user_denied.file"));
     	if (f.exists()){
     		ForumWhitelist.logger.log(Level.INFO, plugin.getDescription().getName() + ": Backend file loaded.");
     	}
-        config = this.getConfig();
         ForumWhitelist.mysqlcon = new MySQL(logger, config.getString("mysql.prefix"), config.getString("mysql.hostname"), String.valueOf(config.getInt("mysql.port")), config.getString("mysql.database"), config.getString("mysql.user"), String.valueOf(config.getInt("mysql.password")));
         if (dbCheck()) {
             ForumWhitelist.logger.log(Level.INFO, plugin.getDescription().getName() + " enabled");
