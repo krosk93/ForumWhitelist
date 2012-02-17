@@ -10,8 +10,6 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
-import es.jertocvil.whitelist2.Whitelist2;
-
 import java.util.logging.Level;
 import java.sql.SQLException;
 
@@ -41,15 +39,22 @@ public class ForumPlayerListener implements Listener {
             	reg = true;
             }
             if(!reg){
-            	BufferedReader b = new BufferedReader(new FileReader(ForumWhitelist.f));
-                String linea;
-                while((linea = b.readLine())!=null){
-                    if(p.getName().equals(linea)) {
-                    	reg = true;
-                    	p.sendMessage("No estas verificado en el foro. El dia 19/02/12 no podras acceder a menos que verifiques");
-                    }
-                }
-                b.close();
+            	if (ForumWhitelist.f.exists()){
+            		BufferedReader b;
+					try {
+						b = new BufferedReader(new FileReader(ForumWhitelist.f));
+						String linea;
+	                	while((linea = b.readLine())!=null){
+	                    	if(p.getName().equals(linea)) {
+	                    		reg = true;
+	                    		p.sendMessage("No estas verificado en el foro. El dia 19/02/12 no podras acceder a menos que verifiques");
+	                    	}
+	                	}
+	                	b.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+            	}
             }
             return reg;
         } catch (SQLException ex) {
